@@ -1,5 +1,4 @@
 <html><head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>中投區會考資源整合平台</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -31,6 +30,10 @@
         padding: 6em 0;
         clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
         position: relative;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
     .header-content {
@@ -174,12 +177,14 @@
         padding: 0 1.5em;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease, padding 0.3s ease;
+        transition: max-height 0.5s ease, padding 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
     }
 
     .faq-item.active .faq-answer {
         max-height: 500px;
         padding: 1.5em;
+        opacity: 1;
     }
 
     .faq-toggle {
@@ -189,6 +194,47 @@
 
     .faq-item.active .faq-toggle {
         transform: rotate(180deg);
+    }
+
+    .countdown {
+        text-align: center;
+        font-size: 1.2em;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    #countdown-value {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-color);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .back-to-top.visible {
+        opacity: 1;
     }
 
     @media (max-width: 768px) {
@@ -212,6 +258,7 @@
         <div class="container header-content">
             <h1><i class="fas fa-graduation-cap"></i> 中投區會考資源整合平台</h1>
             <p class="subtitle">為中投區的學子們提供全面的會考資訊、分析工具和學習資源，助您踏上成功之路！</p>
+            <div id="exam-countdown" class="countdown">距離114年會考還有: <span id="countdown-value"></span></div>
         </div>
     </header>
     <main class="container">
@@ -219,8 +266,8 @@
             <div class="resource-card" data-aos="fade-up">
                 <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
                 <div class="card-content">
-                    <h2>中投區錄取分數</h2>
-                    <p>查看最新的中投區各校錄取分數，幫助您進行更準確的落點分析和學校選擇。</p>
+                    <h2>中投區歷年錄取分數</h2>
+                    <p>查看最新的中投區各校歷年錄取分數，幫助您進行更準確的落點分析和學校選擇。</p>
                     <a href="https://ctttw.github.io/cttw/" class="btn" target="_blank">查看錄取分數</a>
                 </div>
             </div>
@@ -235,9 +282,9 @@
             <div class="resource-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-icon"><i class="fas fa-hourglass-half"></i></div>
                 <div class="card-content">
-                    <h2>114會考倒數</h2>
-                    <p>114年會考倒數計時器，助您掌握備考時間，提高學習效率。</p>
-                    <a href="https://ctttw.github.io/114clock/" class="btn" target="_blank">查看倒數計時</a>
+                    <h2>最新各校錄取分數</h2>
+                    <p>114年會考各校落點分析，助您輕鬆選填適合自己的高中職。</p>
+                    <a href="https://ctttw.github.io/fraction/" class="btn" target="_blank">查看各校錄取分數</a>
                 </div>
             </div>
             <div class="resource-card" data-aos="fade-up" data-aos-delay="300">
@@ -320,6 +367,10 @@
         </div>
     </section>
 
+    <div class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
     <footer>
         <div class="container">
             <p>&copy; 2024 中投區會考資源整合平台. All rights reserved.</p>
@@ -339,6 +390,41 @@
                 item.querySelector('.faq-question').addEventListener('click', () => {
                     item.classList.toggle('active');
                 });
+            });
+
+            function updateCountdown() {
+                const examDate = new Date('2025-05-16T00:00:00'); // Assuming the exam is on May 16, 2025
+                const now = new Date();
+                const difference = examDate - now;
+
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown-value').textContent = 
+                    `${days}天 ${hours}小時 ${minutes}分鐘 ${seconds}秒`;
+            }
+
+            // Update the countdown every second
+            setInterval(updateCountdown, 1000);
+
+            // Initial call to display the countdown immediately
+            updateCountdown();
+
+            // Back to Top functionality
+            const backToTop = document.querySelector('.back-to-top');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
     </script>
