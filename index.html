@@ -27,13 +27,14 @@
 
     header {
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        padding: 6em 0;
+        padding: 8em 0;
         clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
         position: relative;
         background-attachment: fixed;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
     .header-content {
@@ -47,7 +48,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: 0.1;
+        opacity: 0.15;
         background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23ffffff" width="50" height="50" x="0" y="0" /><rect fill="%23ffffff" width="50" height="50" x="50" y="50" /></svg>');
         background-size: 20px 20px;
     }
@@ -56,10 +57,22 @@
         font-size: 4em;
         font-weight: 700;
         letter-spacing: 2px;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         text-align: center;
         color: white;
         margin-bottom: 0.5em;
+        animation: fadeInDown 1.5s ease-out;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .subtitle {
@@ -68,6 +81,16 @@
         color: rgba(255,255,255,0.9);
         max-width: 800px;
         margin: 0 auto;
+        animation: fadeIn 2s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     .container {
@@ -90,15 +113,47 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
         position: relative;
+        border: 1px solid rgba(0,0,0,0.05);
     }
 
     .resource-card:hover {
         transform: translateY(-10px);
         box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        border-color: rgba(74,144,226,0.2);
+    }
+
+    .resource-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    .resource-card:hover::before {
+        transform: scaleX(1);
     }
 
     .card-content {
         padding: 2.5em;
+        position: relative;
+        z-index: 1;
+    }
+
+    .card-bg {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: linear-gradient(135deg, transparent, rgba(74,144,226,0.05));
+        border-radius: 50%;
+        z-index: 0;
     }
 
     h2 {
@@ -106,6 +161,23 @@
         color: var(--primary-color);
         margin-bottom: 0.5em;
         font-weight: 700;
+        position: relative;
+        display: inline-block;
+    }
+
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background-color: var(--accent-color);
+        transition: width 0.3s ease;
+    }
+
+    .resource-card:hover h2::after {
+        width: 100%;
     }
 
     .btn {
@@ -119,40 +191,110 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1.5px;
+        box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.7s ease;
     }
 
     .btn:hover {
         background-color: #e74c3c;
         transform: scale(1.05);
+        box-shadow: 0 7px 20px rgba(231,76,60,0.4);
+    }
+
+    .btn:hover::before {
+        left: 100%;
     }
 
     .card-icon {
         position: absolute;
-        top: -30px;
+        top: -20px;
         right: 20px;
         font-size: 4em;
         color: var(--primary-color);
-        opacity: 0.1;
+        opacity: 0.15;
         transform: rotate(15deg);
+        transition: all 0.3s ease;
+    }
+
+    .resource-card:hover .card-icon {
+        transform: rotate(0deg) scale(1.1);
+        opacity: 0.2;
     }
 
     footer {
-        background-color: #2c3e50;
+        background: linear-gradient(135deg, #2c3e50, #1a2530);
         color: #ecf0f1;
         text-align: center;
-        padding: 2em 0;
+        padding: 3em 0;
         margin-top: 4em;
+        position: relative;
+        overflow: hidden;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+    }
+
+    .footer-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-wave {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%232c3e50" fill-opacity="0.5" d="M0,160L48,165.3C96,171,192,181,288,181.3C384,181,480,171,576,181.3C672,192,768,224,864,213.3C960,203,1056,149,1152,138.7C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
     }
 
     .faq-section {
         background-color: #f1f8ff;
         padding: 4em 0;
         margin-top: 4em;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .faq-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle fill="%234a90e2" fill-opacity="0.05" cx="50" cy="50" r="30" /></svg>');
+        background-size: 300px 300px;
+        opacity: 0.4;
     }
 
     .faq-container {
         max-width: 800px;
         margin: 0 auto;
+        position: relative;
+        z-index: 1;
     }
 
     .faq-item {
@@ -161,6 +303,17 @@
         margin-bottom: 1.5em;
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         overflow: hidden;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+    }
+
+    .faq-item:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        transform: translateY(-5px);
+    }
+
+    .faq-item.active {
+        border-left-color: var(--accent-color);
     }
 
     .faq-question {
@@ -171,6 +324,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .faq-item:hover .faq-question {
+        color: var(--primary-color);
     }
 
     .faq-answer {
@@ -179,6 +337,8 @@
         overflow: hidden;
         transition: max-height 0.5s ease, padding 0.5s ease, opacity 0.5s ease;
         opacity: 0;
+        line-height: 1.8;
+        color: #555;
     }
 
     .faq-item.active .faq-answer {
@@ -190,6 +350,7 @@
     .faq-toggle {
         font-size: 1.5em;
         transition: transform 0.3s ease;
+        color: var(--primary-color);
     }
 
     .faq-item.active .faq-toggle {
@@ -200,15 +361,32 @@
         text-align: center;
         font-size: 1.2em;
         color: white;
-        background-color: rgba(0, 0, 0, 0.1);
-        padding: 10px;
-        border-radius: 10px;
-        margin-top: 20px;
+        background-color: rgba(0, 0, 0, 0.15);
+        padding: 15px;
+        border-radius: 15px;
+        margin-top: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.1);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(255,255,255,0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(255,255,255,0);
+        }
     }
 
     #countdown-value {
         font-weight: bold;
-        font-size: 1.2em;
+        font-size: 1.4em;
+        letter-spacing: 1px;
     }
 
     html {
@@ -219,7 +397,7 @@
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background-color: var(--primary-color);
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         color: white;
         width: 50px;
         height: 50px;
@@ -230,11 +408,36 @@
         font-size: 24px;
         cursor: pointer;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(74,144,226,0.5);
+        z-index: 999;
+    }
+
+    .back-to-top:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(74,144,226,0.6);
     }
 
     .back-to-top.visible {
         opacity: 1;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 2em;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     }
 
     @media (max-width: 768px) {
@@ -248,6 +451,53 @@
 
         .resource-grid {
             grid-template-columns: 1fr;
+        }
+        
+        header {
+            padding: 6em 0;
+        }
+        
+        .countdown {
+            font-size: 1em;
+        }
+        
+        #countdown-value {
+            font-size: 1.2em;
+        }
+    }
+    
+    /* 新增的動畫效果 */
+    .fade-in {
+        animation: fadeIn 1s ease-out;
+    }
+    
+    .slide-in-left {
+        animation: slideInLeft 1s ease-out;
+    }
+    
+    .slide-in-right {
+        animation: slideInRight 1s ease-out;
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
         }
     }
 </style>
@@ -266,6 +516,7 @@
             <div class="resource-card" data-aos="fade-up">
                 <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
                 <div class="card-content">
+                    <div class="card-bg"></div>
                     <h2>中投區歷年錄取分數</h2>
                     <p>查看最新的中投區各校歷年錄取分數，幫助您進行更準確的落點分析和學校選擇。</p>
                     <a href="https://ctttw.github.io/cttw/" class="btn" target="_blank">查看錄取分數</a>
@@ -274,6 +525,7 @@
             <div class="resource-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="card-icon"><i class="fas fa-newspaper"></i></div>
                 <div class="card-content">
+                    <div class="card-bg"></div>
                     <h2>CTTW會考最新消息</h2>
                     <p>獲取中投區會考的最新消息、政策更新和重要公告，保持信息及時性。</p>
                     <a href="https://sites.google.com/view/ctttw" class="btn" target="_blank">查看最新消息</a>
@@ -282,6 +534,7 @@
             <div class="resource-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-icon"><i class="fas fa-hourglass-half"></i></div>
                 <div class="card-content">
+                    <div class="card-bg"></div>
                     <h2>最新各校錄取分數</h2>
                     <p>114年會考各校落點分析，助您輕鬆選填適合自己的高中職。</p>
                     <a href="https://ctttw.github.io/fraction/" class="btn" target="_blank">查看各校錄取分數</a>
@@ -290,6 +543,7 @@
             <div class="resource-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
                 <div class="card-content">
+                    <div class="card-bg"></div>
                     <h2>異常回報系統</h2>
                     <p>發現網站問題或數據錯誤？使用我們的異常回報系統，幫助我們持續改進。</p>
                     <a href="https://ctttw.github.io/report_form" class="btn" target="_blank">回報異常</a>
@@ -298,6 +552,7 @@
             <div class="resource-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="card-icon"><i class="fas fa-calculator"></i></div>
                 <div class="card-content">
+                    <div class="card-bg"></div>
                     <h2>會考落點分析</h2>
                     <p>運用我們的落點分析工具，幫助您更好地規劃未來的學習方向和目標學校。</p>
                     <a href="https://ctttw.github.io/" class="btn" target="_blank">進行落點分析</a>
@@ -306,6 +561,7 @@
             <div class="resource-card" data-aos="fade-up" data-aos-delay="500">
                 <div class="card-icon"><i class="fas fa-info-circle"></i></div>
                 <div class="card-content">
+                    <div class="card-bg"></div>
                     <h2>會考資訊</h2>
                     <p>獲取全面的中投區會考相關資訊，包括考試日期、科目安排、準備策略等。</p>
                     <a href="https://ctttw.github.io/news/" class="btn" target="_blank">查看詳細資訊</a>
@@ -316,9 +572,9 @@
     
     <section class="faq-section">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: 2em;">常見問題</h2>
+            <h2 class="section-title">常見問題</h2>
             <div class="faq-container">
-                <div class="faq-item">
+                <div class="faq-item" data-aos="fade-up">
                     <div class="faq-question">
                         會考的科目有哪些？
                         <span class="faq-toggle">▼</span>
@@ -327,7 +583,7 @@
                         國中教育會考包括國文、英語、數學、自然和社會五個科目。其中，國文和英語還包括聽力測驗部分。
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
                     <div class="faq-question">
                         如何解讀會考成績？
                         <span class="faq-toggle">▼</span>
@@ -336,7 +592,7 @@
                         會考成績採用等級制，從高到低分別是A++、A+、A、B++、B+、B、C，其中A++表示該科目成績位於前3%，A+表示前3%-10%，以此類推。
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
                     <div class="faq-question">
                         會考成績何時公布？
                         <span class="faq-toggle">▼</span>
@@ -345,7 +601,7 @@
                         通常會考成績會在考試結束後約一個月內公布。具體日期可以參考教育部或各地教育局的官方公告。
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
                     <div class="faq-question">
                         如何進行落點分析？
                         <span class="faq-toggle">▼</span>
@@ -354,7 +610,7 @@
                         您可以使用我們的落點分析工具，輸入您的會考成績和志願，系統會根據歷年數據為您提供合適的學校建議。此外，建議您也諮詢學校老師或升學顧問，以獲得更全面的建議。
                     </div>
                 </div>
-                <div class="faq-item">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
                     <div class="faq-question">
                         如何有效準備會考？
                         <span class="faq-toggle">▼</span>
@@ -372,9 +628,10 @@
     </div>
 
     <footer>
-        <div class="container">
+        <div class="footer-wave"></div>
+        <div class="container footer-content">
             <p>&copy; 2025 中投區會考資源整合平台. All rights reserved.</p>
-            <p>聯絡我們: <a href="cttw.analyze@gmail.com" style="color: #ecf0f1;">cttw.analyze@gmail.com</a></p>
+            <p>聯絡我們: <a href="mailto:cttw.analyze@gmail.com" style="color: #ecf0f1; text-decoration: none; border-bottom: 1px dotted #ecf0f1;">cttw.analyze@gmail.com</a></p>
         </div>
     </footer>
     <script>
